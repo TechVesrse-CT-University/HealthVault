@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthVault - India Disease Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+</head>
+<body>
+    <style>
+        :root {
+    --primary-color: #4285f4;
+    --secondary-color: #34a853;
+    --accent-color: #ea4335;
+    --warning-color: #fbbc05;
+    --text-color: #333;
+    --text-light: #666;
+    --text-lighter: #999;
+    --bg-color: #fff;
+    --bg-light: #f5f7fa;
+    --bg-card: #fff;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--bg-color);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: var(--transition);
+}
+
+nav ul li a:hover {
+    color: var(--primary-color);
+}
+
+nav ul li a.active {
+    color: var(--primary-color);
+}
+
+nav ul li a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.user-profile i {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.user-profile i:hover {
+    color: var(--primary-color);
+}
+
+/* Sub Navigation */
+.sub-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.75rem 2rem;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.nav-item:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.nav-item span {
+    font-weight: 500;
+}
+
+.nav-item i {
+    font-size: 0.75rem;
+    color: var(--text-lighter);
+}
+
+/* Main Content */
+main {
+    padding: 2rem;
+}
+
+/* Dashboard Section */
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 1200px) {
+    .dashboard {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .globe-container {
+        grid-column: span 2;
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+    
+    .globe-container {
+        grid-column: span 1;
+    }
+}
+
+.stats-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+}
+
+.big-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    color: var(--text-lighter);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.stat-card h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem;
+    color: var(--text-light);
+}
+
+/* Progress Bars */
+.progress-container {
+    margin-top: 1rem;
+}
+
+.country-stat {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.progress-bar {
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    border-radius: 3px;
+}
+
+/* Rate Info */
+.rate-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.rate-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.rate-change {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.rate-change.up {
+    color: var(--secondary-color);
+    background-color: rgba(52, 168, 83, 0.1);
+}
+
+.rate-change.down {
+    color: var(--accent-color);
+    background-color: rgba(234, 67, 53, 0.1);
+}
+
+/* Bar Chart */
+.chart-container {
+    margin-top: 1rem;
+    height: 100px;
+}
+
+.bar-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.bar {
+    width: 6px;
+    background-color: var(--primary-color);
+    border-radius: 3px;
+    transition: var(--transition);
+}
+
+.bar:nth-child(even) {
+    background-color: rgba(66, 133, 244, 0.7);
+}
+
+.bar:hover {
+    transform: scaleY(1.1);
+}
+
+/* Globe Container */
+.globe-container {
+    position: relative;
+    height: 500px;
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+#globe {
+    width: 100%;
+    height: 100%;
+}
+
+.overlay-info {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    z-index: 10;
+}
+
+.info-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    max-width: 250px;
+}
+
+/* Disease Info */
+.disease-info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.disease-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(66, 133, 244, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.disease-icon i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.disease-stats h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.spread-rate {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.rate-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid var(--accent-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.rate-circle small {
+    font-size: 0.6rem;
+}
+
+.cases {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.case-number {
+    font-weight: 600;
+}
+
+.case-change {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.case-change.up {
+    color: var(--secondary-color);
+}
+
+.case-change.down {
+    color: var(--accent-color);
+}
+
+/* Forecast */
+.forecast {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.forecast-number {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.forecast-change {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.forecast-change.up {
+    color: var(--secondary-color);
+    background-color: rgba(52, 168, 83, 0.1);
+}
+
+.forecast-change.down {
+    color: var(--accent-color);
+    background-color: rgba(234, 67, 53, 0.1);
+}
+
+/* Guidelines Section */
+.guidelines-section {
+    margin-bottom: 3rem;
+}
+
+.guidelines-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.guidelines-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.guideline-card {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.guideline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.guideline-icon {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(66, 133, 244, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+.guideline-icon i {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+}
+
+.guideline-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.guideline-card p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* News Section */
+.news-section {
+    margin-bottom: 3rem;
+}
+
+.news-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.news-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.news-card {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.news-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.news-content {
+    padding: 1.5rem;
+}
+
+.news-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.news-tag.alert {
+    background-color: rgba(234, 67, 53, 0.1);
+    color: var(--accent-color);
+}
+
+.news-tag.warning {
+    background-color: rgba(251, 188, 5, 0.1);
+    color: var(--warning-color);
+}
+
+.news-tag.info {
+    background-color: rgba(66, 133, 244, 0.1);
+    color: var(--primary-color);
+}
+
+.news-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.news-content p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.news-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.news-date {
+    font-size: 0.8rem;
+    color: var(--text-lighter);
+}
+
+.read-more {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: var(--transition);
+}
+
+.read-more:hover {
+    gap: 0.5rem;
+}
+
+/* Services Section */
+.services-section {
+    margin-bottom: 3rem;
+}
+
+.services-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap:3rem;
+}
+
+.service-card {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 3rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.service-card:hover p {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.service-card:hover .service-icon {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.service-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.service-content p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.service-icon {
+    width: 50px;
+    height: 100px;
+    background-color: rgba(66, 133, 244, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.service-icon i {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+/* Footer */
+footer {
+    background-color: #1a2b47;
+    color: white;
+    padding: 3rem 2rem 1rem;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-column h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.footer-column h3::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.footer-column p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.75rem;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-column ul li a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-column ul li a:hover {
+    color: white;
+    padding-left: 5px;
+}
+
+.footer-column i {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+    
+    .globe-container {
+        height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 1rem;
+    }
+    
+    nav ul {
+        display: none;
+    }
+    
+    .sub-nav {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 0.75rem 1rem;
+    }
+    
+    .nav-item {
+        white-space: nowrap;
+    }
+    
+    main {
+        padding: 1rem;
+    }
+    
+    .globe-container {
+        height: 350px;
+    }
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.guideline-card, .news-card, .service-card {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.guideline-icon:hover, .service-icon:hover {
+    animation: pulse 1s infinite;
+}
+        /* Services Section - Updated to match original image layout */
+.services-section {
+    margin: 2rem 0 3rem;
+}
+
+.services-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.service-card {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+    height: 100px;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.service-card:hover p {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.service-card:hover .service-icon {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.service-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.service-content p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.service-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(66, 133, 244, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.service-icon i {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+@media (max-width: 768px) {
+    .services-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dropdown-container {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 2rem;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px 15px;
+            font-size: 1rem;
+            color: #2b5876;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-btn:hover {
+            color: #4e4376;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f5f9;
+            color: #2b5876;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+    <header>
+        <div class="logo">
+            <i class="fas fa-hospital-alt"></i>
+            <h1>HealthVault</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Blood Donation</a></li>
+            </ul>
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dropdown-container">
+        <div class="dropdown">
+            <button class="dropdown-btn">Report Analysis <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="/templates/report.html">Analysing</a>
+                <a href="/templates/report.html">Chat with Ai</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn">Medical Stats <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="#">History</a>
+                <a href="#">Comparison</a>
+                <!-- <a href="#">Graphical</a>
+                <a href="#">All Locations</a> -->
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn">Reminders <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="#">Emergency Care</a>
+                <a href="#">Diagnostics</a>
+                <a href="#">Surgery</a>
+                <a href="#">Consultation</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn">Appointments <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="{{url_for('doctors')}}">Doctor</a>
+                <a href="{{url_for('hospitals')}}">Hospitals</a>
+            </div>
+        </div>
+    </div>
+    <main>
+        <section class="dashboard">
+            <div class="stats-panel left-panel">
+                <div class="stat-card">
+                    <h3>India Disease Statistics</h3>
+                    <div class="big-number">1,541,390</div>
+                    <p>Total reported cases nationwide</p>
+                    
+                    <h4>Current outbreaks</h4>
+                    <div class="progress-container">
+                        <div class="country-stat">
+                            <span>Maharashtra</span>
+                            <span>464,700</span>
+                            <span>55%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 55%; background-color: #4285f4;"></div>
+                        </div>
+                        
+                        <div class="country-stat">
+                            <span>Delhi</span>
+                            <span>210,950</span>
+                            <span>25%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 25%; background-color: #ea4335;"></div>
+                        </div>
+                        
+                        <div class="country-stat">
+                            <span>Kerala</span>
+                            <span>185,260</span>
+                            <span>15%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 15%; background-color: #fbbc05;"></div>
+                        </div>
+                        
+                        <div class="country-stat">
+                            <span>Tamil Nadu</span>
+                            <span>104,210</span>
+                            <span>13%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 13%; background-color: #34a853;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Infection Rate</h3>
+                    <div class="rate-info">
+                        <div class="rate-number">87%</div>
+                        <div class="rate-change up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>4.7%</span>
+                        </div>
+                    </div>
+                    <p>Compared to last week</p>
+                    
+                    <div class="chart-container">
+                        <div class="bar-chart">
+                            <div class="bar" style="height: 60%"></div>
+                            <div class="bar" style="height: 75%"></div>
+                            <div class="bar" style="height: 45%"></div>
+                            <div class="bar" style="height: 90%"></div>
+                            <div class="bar" style="height: 65%"></div>
+                            <div class="bar" style="height: 80%"></div>
+                            <div class="bar" style="height: 70%"></div>
+                            <div class="bar" style="height: 85%"></div>
+                            <div class="bar" style="height: 75%"></div>
+                            <div class="bar" style="height: 95%"></div>
+                            <div class="bar" style="height: 65%"></div>
+                            <div class="bar" style="height: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="globe-container">
+                <div id="globe"></div>
+                <div class="overlay-info">
+                    <div class="info-card">
+                        <h3>Active Outbreaks</h3>
+                        <div class="big-number">32,880</div>
+                        <p>India disease hotspots</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-panel right-panel">
+                <div class="stat-card">
+                    <h3>Virus Disease</h3>
+                    <div class="disease-info">
+                        <div class="disease-icon">
+                            <i class="fas fa-virus"></i>
+                        </div>
+                        <div class="disease-stats">
+                            <h4>Dengue Fever</h4>
+                            <div class="spread-rate">
+                                <span>Spread Rate:</span>
+                                <div class="rate-circle">
+                                    <span>23</span>
+                                    <small>%</small>
+                                </div>
+                            </div>
+                            <div class="cases">
+                                <span>New Cases:</span>
+                                <span class="case-number">5,123</span>
+                                <span class="case-change up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    30%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Monthly Forecast</h3>
+                    <div class="forecast">
+                        <div class="forecast-number">32,875</div>
+                        <div class="forecast-change up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>4.8%</span>
+                        </div>
+                    </div>
+                    <p>Estimated new cases next month</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Yearly Projection</h3>
+                    <div class="forecast">
+                        <div class="forecast-number">387,122</div>
+                        <div class="forecast-change up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>6.7%</span>
+                        </div>
+                    </div>
+                    <p>Estimated cases by year end</p>
+                </div>  
+            </div>
+        </section>
+        
+        <!-- Services section moved here as requested -->
+        <section class="services-section">
+            <!-- <h2>We can help you book</h2> -->
+            <div class="services-container">
+                <div class="service-card">
+                    <div class="service-content">
+                        <h3>Book an Appointment</h3>
+                        <p>With country's leading experts</p>
+                    </div>
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-content">
+                        <h3>Hospitals</h3>
+                        <p>Health needs under one roof</p>
+                    </div>
+                    <div class="service-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-content">
+                        <h3>Health Checkups</h3>
+                        <p>Comprehensive health screening</p>
+                    </div>
+                    <div class="service-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-content">
+                        <h3>Tests & Services</h3>
+                        <p>Advanced diagnostics available</p>
+                    </div>
+                    <div class="service-icon">
+                        <i class="fas fa-vial"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="guidelines-section">
+            <h2>Health Guidelines & Preventive Measures</h2>
+            <div class="guidelines-container">
+                <div class="guideline-card">
+                    <div class="guideline-icon">
+                        <i class="fas fa-hands-wash"></i>
+                    </div>
+                    <h3>Hand Hygiene</h3>
+                    <p>Wash hands frequently with soap and water for at least 20 seconds, especially after being in public places.</p>
+                </div>
+                
+                <div class="guideline-card">
+                    <div class="guideline-icon">
+                        <i class="fas fa-head-side-mask"></i>
+                    </div>
+                    <h3>Wear Masks</h3>
+                    <p>Use masks in crowded settings, especially in areas with high transmission rates.</p>
+                </div>
+                
+                <div class="guideline-card">
+                    <div class="guideline-icon">
+                        <i class="fas fa-people-arrows"></i>
+                    </div>
+                    <h3>Social Distancing</h3>
+                    <p>Maintain at least 6 feet distance from others in public spaces to reduce transmission risk.</p>
+                </div>
+                
+                <div class="guideline-card">
+                    <div class="guideline-icon">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <h3>Vaccination</h3>
+                    <p>Stay up-to-date with recommended vaccines to protect against preventable diseases.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="news-section">
+            <h2>Latest Disease Outbreaks & News</h2>
+            <div class="news-container">
+                <div class="news-card">
+                    <div class="news-image" style="background-image: url('https://via.placeholder.com/300x200?text=Dengue+Outbreak')"></div>
+                    <div class="news-content">
+                        <span class="news-tag alert">Alert</span>
+                        <h3>Dengue Fever Spreads in Maharashtra</h3>
+                        <p>Health authorities report new cases of Dengue in Mumbai and Pune, raising concerns about monsoon season outbreaks.</p>
+                        <div class="news-footer">
+                            <span class="news-date">April 10, 2025</span>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background-image: url('https://via.placeholder.com/300x200?text=Malaria+Cases')"></div>
+                    <div class="news-content">
+                        <span class="news-tag warning">Warning</span>
+                        <h3>Malaria Cases Surge in Kerala</h3>
+                        <p>Unusually high rainfall has led to increased mosquito breeding and a 40% rise in malaria cases across the state.</p>
+                        <div class="news-footer">
+                            <span class="news-date">April 8, 2025</span>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background-image: url('https://via.placeholder.com/300x200?text=New+Vaccine')"></div>
+                    <div class="news-content">
+                        <span class="news-tag info">Update</span>
+                        <h3>New Vaccine Shows Promise Against Multiple Strains</h3>
+                        <p>ICMR reports 94% efficacy for a new universal vaccine targeting multiple respiratory viruses developed in India.</p>
+                        <div class="news-footer">
+                            <span class="news-date">April 5, 2025</span>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>About HealthVault</h3>
+                <p>HealthVault helps you locate the best healthcare facilities near you. Our mission is to connect patients with quality healthcare services.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Find a Hospital</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> Email: info@HealthVault.com</p>
+                <p><i class="fas fa-phone"></i> Phone: +91 123 456 7890</p>
+                <p><i class="fas fa-map-marker-alt"></i> Address: Sector 17, Chandigarh, India</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 HealthVault. All rights reserved.</p>
+            <div class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the globe
+    initGlobe();
+    
+    // Initialize animations and interactions
+    initAnimations();
+    
+    // Initialize theme toggle
+    initThemeToggle();
+    
+    // Initialize responsive navigation
+    initResponsiveNav();
+});
+
+// Globe initialization with Three.js
+function initGlobe() {
+    // Scene setup
+    const container = document.getElementById('globe');
+    const scene = new THREE.Scene();
+    
+    // Camera setup
+    const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.z = 200;
+    
+    // Renderer setup
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+    
+    // Controls for interaction
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.rotateSpeed = 0.5;
+    controls.enableZoom = true;
+    controls.minDistance = 150;
+    controls.maxDistance = 300;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
+    
+    // Create Earth sphere
+    const earthGeometry = new THREE.SphereGeometry(100, 64, 64);
+    
+    // Load Earth texture
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
+    const earthBumpMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg');
+    const earthSpecMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_specular_2048.jpg');
+    
+    // Earth material with texture
+    const earthMaterial = new THREE.MeshPhongMaterial({
+        map: earthTexture,
+        bumpMap: earthBumpMap,
+        bumpScale: 0.5,
+        specularMap: earthSpecMap,
+        specular: new THREE.Color('grey'),
+        shininess: 5
+    });
+    
+    const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+    scene.add(earth);
+    
+    // Add atmosphere glow
+    const atmosphereGeometry = new THREE.SphereGeometry(102, 64, 64);
+    const atmosphereMaterial = new THREE.MeshPhongMaterial({
+        color: 0x4285f4,
+        transparent: true,
+        opacity: 0.2,
+        side: THREE.BackSide
+    });
+    const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+    scene.add(atmosphere);
+    
+    // Add lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 3, 5);
+    scene.add(directionalLight);
+    
+    // Add hotspots for disease outbreaks in India
+    addIndiaHotspots(earth);
+    
+    // Highlight India with red (as requested)
+    highlightIndia(earth);
+    
+    // Position the globe to show India
+    positionGlobeToShowIndia(earth);
+    
+    // Handle window resize
+    window.addEventListener('resize', onWindowResize);
+    
+    function onWindowResize() {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    }
+    
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+    
+    animate();
+}
+
+// Position the globe to show India
+function positionGlobeToShowIndia(earth) {
+    // India's approximate coordinates
+    const indiaLat = 20.5937;
+    const indiaLng = 78.9629;
+    
+    // Rotate the globe to show India
+    const phi = (90 - indiaLat) * Math.PI / 180;
+    const theta = (indiaLng + 90) * Math.PI / 180;
+    
+    earth.rotation.y = theta;
+    earth.rotation.x = phi;
+}
+
+// Add disease outbreak hotspots in India
+function addIndiaHotspots(earth) {
+    // Define hotspot locations in India (latitude, longitude)
+    const hotspots = [
+        { lat: 19.0760, lng: 72.8777, size: 5, color: 0xea4335, intensity: 1.0, name: "Mumbai" }, // Mumbai
+        { lat: 28.6139, lng: 77.2090, size: 4, color: 0xea4335, intensity: 0.9, name: "Delhi" }, // Delhi
+        { lat: 12.9716, lng: 77.5946, size: 4, color: 0xea4335, intensity: 0.8, name: "Bangalore" }, // Bangalore
+        { lat: 22.5726, lng: 88.3639, size: 3, color: 0xea4335, intensity: 0.7, name: "Kolkata" }, // Kolkata
+        { lat: 13.0827, lng: 80.2707, size: 4, color: 0xea4335, intensity: 0.8, name: "Chennai" }, // Chennai
+        { lat: 17.3850, lng: 78.4867, size: 3, color: 0xea4335, intensity: 0.7, name: "Hyderabad" }, // Hyderabad
+        { lat: 23.0225, lng: 72.5714, size: 3, color: 0xea4335, intensity: 0.6, name: "Ahmedabad" }, // Ahmedabad
+        { lat: 18.5204, lng: 73.8567, size: 3, color: 0xea4335, intensity: 0.7, name: "Pune" }, // Pune
+        { lat: 10.8505, lng: 76.2711, size: 3, color: 0xea4335, intensity: 0.8, name: "Kerala" }, // Kerala
+        { lat: 26.8467, lng: 80.9462, size: 3, color: 0xea4335, intensity: 0.6, name: "Lucknow" }, // Lucknow
+    ];
+    
+    hotspots.forEach(hotspot => {
+        const position = latLngToVector3(hotspot.lat, hotspot.lng, 102);
+        
+        // Create hotspot marker
+        const markerGeometry = new THREE.SphereGeometry(hotspot.size, 16, 16);
+        const markerMaterial = new THREE.MeshBasicMaterial({
+            color: hotspot.color,
+            transparent: true,
+            opacity: hotspot.intensity
+        });
+        
+        const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+        marker.position.set(position.x, position.y, position.z);
+        earth.add(marker);
+        
+        // Add pulsing effect
+        animateHotspot(marker, hotspot.intensity);
+    });
+}
+
+// Highlight India on the globe
+function highlightIndia(earth) {
+    // India's approximate boundaries (simplified)
+    const indiaBoundaries = [
+        { lat: 37, lng: 68 }, // Northwest
+        { lat: 37, lng: 97 }, // Northeast
+        { lat: 6, lng: 97 }, // Southeast
+        { lat: 6, lng: 68 } // Southwest
+    ];
+    
+    // Create a mesh for the highlighted area
+    const highlightGeometry = new THREE.BufferGeometry();
+    const vertices = [];
+    
+    // Add vertices for the country boundaries
+    indiaBoundaries.forEach(point => {
+        const vertex = latLngToVector3(point.lat, point.lng, 101);
+        vertices.push(vertex.x, vertex.y, vertex.z);
+    });
+    
+    // Calculate center point of India
+    const centerLat = 20.5937;
+    const centerLng = 78.9629;
+    const center = latLngToVector3(centerLat, centerLng, 101);
+    
+    // Add center point to create a fan of triangles
+    vertices.push(center.x, center.y, center.z);
+    
+    // Create faces (triangles)
+    const indices = [];
+    for (let i = 0; i < indiaBoundaries.length; i++) {
+        indices.push(i, (i + 1) % indiaBoundaries.length, indiaBoundaries.length);
+    }
+    
+    highlightGeometry.setIndex(indices);
+    highlightGeometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    highlightGeometry.computeVertexNormals();
+    
+    const highlightMaterial = new THREE.MeshBasicMaterial({
+        color: 0xff0000,
+        transparent: true,
+        opacity: 0.5,
+        side: THREE.DoubleSide
+    });
+    
+    const highlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
+    earth.add(highlight);
+}
+
+// Convert latitude and longitude to 3D position
+function latLngToVector3(lat, lng, radius) {
+    const phi = (90 - lat) * Math.PI / 180;
+    const theta = (lng + 180) * Math.PI / 180;
+    
+    const x = -radius * Math.sin(phi) * Math.cos(theta);
+    const y = radius * Math.cos(phi);
+    const z = radius * Math.sin(phi) * Math.sin(theta);
+    
+    return new THREE.Vector3(x, y, z);
+}
+
+// Animate hotspot with pulsing effect
+function animateHotspot(marker, baseOpacity) {
+    const initialScale = marker.scale.x;
+    
+    function pulse() {
+        const scale = initialScale + Math.sin(Date.now() * 0.005) * 0.2;
+        marker.scale.set(scale, scale, scale);
+        
+        const opacity = baseOpacity + Math.sin(Date.now() * 0.005) * 0.2;
+        marker.material.opacity = Math.max(0.2, Math.min(1, opacity));
+        
+        requestAnimationFrame(pulse);
+    }
+    
+    pulse();
+}
+
+// Initialize animations for UI elements
+function initAnimations() {
+    // Animate stat cards on scroll
+    const statCards = document.querySelectorAll('.stat-card, .guideline-card, .news-card, .service-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    statCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(card);
+    });
+    
+    // Animate progress bars
+    const progressBars = document.querySelectorAll('.progress');
+    progressBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0';
+        
+        setTimeout(() => {
+            bar.style.width = width;
+            bar.style.transition = 'width 1s ease-out';
+        }, 500);
+    });
+    
+    // Animate charts
+    const bars = document.querySelectorAll('.bar');
+    bars.forEach((bar, index) => {
+        const height = bar.style.height;
+        bar.style.height = '0';
+        
+        setTimeout(() => {
+            bar.style.height = height;
+            bar.style.transition = 'height 1s ease-out';
+        }, 500 + index * 50);
+    });
+}
+
+// Initialize theme toggle functionality
+function initThemeToggle() {
+    const themeToggle = document.querySelector('.theme-toggle');
+    const root = document.documentElement;
+    
+    themeToggle.addEventListener('click', () => {
+        const icon = themeToggle.querySelector('i');
+        
+        if (icon.classList.contains('fa-moon')) {
+            // Switch to light theme
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            
+            root.style.setProperty('--bg-color', '#fff');
+            root.style.setProperty('--bg-light', '#f5f7fa');
+            root.style.setProperty('--bg-card', '#fff');
+            root.style.setProperty('--text-color', '#333');
+            root.style.setProperty('--text-light', '#666');
+            root.style.setProperty('--text-lighter', '#999');
+        } else {
+            // Switch to dark theme
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+            
+            root.style.setProperty('--bg-color', '#1a2b47');
+            root.style.setProperty('--bg-light', '#0f172a');
+            root.style.setProperty('--bg-card', '#1e3a5f');
+            root.style.setProperty('--text-color', '#f5f7fa');
+            root.style.setProperty('--text-light', '#cbd5e1');
+            root.style.setProperty('--text-lighter', '#94a3b8');
+        }
+    });
+}
+
+// Initialize responsive navigation
+function initResponsiveNav() {
+    const userProfile = document.querySelector('.user-profile');
+    
+    userProfile.addEventListener('click', () => {
+        const navList = document.querySelector('nav ul');
+        navList.style.display = navList.style.display === 'flex' ? 'none' : 'flex';
+        
+        if (navList.style.display === 'flex') {
+            navList.style.position = 'absolute';
+            navList.style.top = '60px';
+            navList.style.right = '20px';
+            navList.style.flexDirection = 'column';
+            navList.style.backgroundColor = 'var(--bg-color)';
+            navList.style.padding = '1rem';
+            navList.style.borderRadius = 'var(--border-radius)';
+            navList.style.boxShadow = 'var(--shadow)';
+            navList.style.zIndex = '100';
+        }
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+        const navList = document.querySelector('nav ul');
+        const userProfile = document.querySelector('.user-profile');
+        
+        if (navList.style.display === 'flex' && 
+            !event.target.closest('nav ul') && 
+            event.target !== userProfile && 
+            !event.target.closest('.user-profile')) {
+            navList.style.display = 'none';
+        }
+    });
+    
+    // Add hover effects to nav items
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            item.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            item.style.backgroundColor = 'transparent';
+        });
+    });
+}
+    </script>
+</body>
+</html>

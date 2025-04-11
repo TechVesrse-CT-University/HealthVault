@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Doctors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="url_for('static' filename='styles.css')">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <i class="fas fa-hospital"></i>
+            HealthVault
+        </div>
+        <div class="navbar-links">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Blood Donation</a>
+            <a href="#">
+                <div class="dropdown">
+                    <!-- <button class="dropdown-btn">                 -->
+                        <i class="fas fa-user-circle"></i>
+                    <!-- </button> -->
+                    <div class="dropdown-content">
+                        <a href="#">logout</a>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </nav>
+
+    <!-- Dropdown Menu -->
+    <div class="dropdown-container">
+        <div class="dropdown">
+            <button class="dropdown-btn">Report Analysis <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="/templates/report.html">Analysing</a>
+                <a href="/templates/report.html">Chat with Ai</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn">Medical Stats <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="#">History</a>
+                <a href="#">Comparison</a>
+                <!-- <a href="#">Graphical</a>
+                <a href="#">All Locations</a> -->
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn">Reminders <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="#">Emergency Care</a>
+                <a href="#">Diagnostics</a>
+                <a href="#">Surgery</a>
+                <a href="#">Consultation</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn">Appointments <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="/templates/doctors.html">Doctor</a>
+                <a href="/templates/hospital.html">Hospitals</a>
+            </div>
+        </div>
+    </div>
+    <!-- Header Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Upload Your Reports</h2>
+            <p>Upload Your Reports to simply/Register in your Medical History</p>
+        </div>
+    </section>
+
+    <div class="upload-section">
+        
+    </div>
+   
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About HealthVault</h3>
+                <p>HealthVault helps you locate the best healthcare facilities near you. Our mission is to connect patients with quality healthcare services.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Find a Hospital</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@medifind.com</p>
+                <p>Phone: +91 123 456 7890</p>
+                <p>Address: Sector 17, Chandigarh, India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MediFind. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Appointment Modal -->
+    <div class="modal" id="appointmentModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>Book an Appointment</h2>
+                <p id="modalHospitalName"></p>
+            </div>
+            <form class="appointment-form" id="appointmentForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Preferred Time</label>
+                    <select id="time" name="time" required>
+                        <option value="">Select a time</option>
+                        <option value="morning">Morning (9AM - 12PM)</option>
+                        <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                        <option value="evening">Evening (4PM - 8PM)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reason">Reason for Visit</label>
+                    <textarea id="reason" name="reason" required></textarea>
+                </div>
+                <button type="submit" class="form-submit">Submit Appointment Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hospital Details Modal -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2 id="detailsHospitalName"></h2>
+            </div>
+            <div id="hospitalDetails"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="toast-message">Appointment request submitted successfully!</div>
+    </div>
+
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <script>
+        // Hospital data from OpenStreetMap
+       
+        // Initialize the page
+        </script>
+</body>
+</html>

@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+/* 
+        :root{
+            --greentheme
+        } */
+        body {
+            /* background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%); */
+            color: #333;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            /* background: linear-gradient(90deg, #8edcf6 0%, #2385ef 100%); */
+            color: rgb(78, 78, 78);
+            
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar-links a {
+            color: rgb(51, 51, 51);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-links a:hover {
+            color: #a1c4fd;
+        }
+
+        .navbar-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #a1c4fd;
+            transition: width 0.3s ease;
+        }
+
+        .navbar-links a:hover::after {
+            width: 100%;
+        }
+            .navbar-links a i {
+        font-size: 1.5rem;
+        vertical-align: middle;
+        color: inherit;
+    }
+
+
+        /* Dropdown Menu */
+        .dropdown-container {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 2rem;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px 15px;
+            font-size: 1rem;
+            color: #2b5876;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-btn:hover {
+            color: #4e4376;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f5f9;
+            color: #2b5876;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header Section */
+        .header {
+            background: linear-gradient(90deg, #3494e6 0%, #ec6ead 100%);
+            padding: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-bar h2 {
+            color: #2b5876;
+        }
+
+        .sort-dropdown {
+            position: relative;
+        }
+
+        .sort-btn {
+            background: linear-gradient(90deg, #2b5876 0%, #4e4376 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sort-btn:hover {
+            background: linear-gradient(90deg, #1e3c52 0%, #3d3560 100%);
+        }
+
+        .sort-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            border-radius: 6px;
+        }
+
+        .sort-dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sort-dropdown-content a:hover {
+            background-color: #f1f5f9;
+        }
+
+        .sort-dropdown:hover .sort-dropdown-content {
+            display: block;
+        }
+
+        /* Hospital Cards */
+        .hospital-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hospital-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .hospital-image {
+            height: 180px;
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hospital-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .hospital-content {
+            padding: 1.5rem;
+        }
+
+        .hospital-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2b5876;
+        }
+
+        .hospital-address {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .hospital-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hospital-tag {
+            background-color: #e4e8f0;
+            color: #2b5876;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .hospital-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #2b5876 0%, #4e4376 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #1e3c52 0%, #3d3560 100%);
+        }
+
+        .btn-secondary {
+            background-color: #f1f5f9;
+            color: #2b5876;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e4e8f0;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .call-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .call-btn:hover {
+            background-color: #3e8e41;
+        }
+
+        .message-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .message-btn:hover {
+            background-color: #0b7dda;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(90deg, #2b5876 0%, #4e4376 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #a1c4fd;
+        }
+
+        .footer-section p {
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #a1c4fd;
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            color: #2b5876;
+        }
+
+        .appointment-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-submit {
+            background: linear-gradient(90deg, #2b5876 0%, #4e4376 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .form-submit:hover {
+            background: linear-gradient(90deg, #1e3c52 0%, #3d3560 100%);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .navbar-links {
+                margin-top: 1rem;
+                gap: 1rem;
+            }
+            
+            .dropdown-container {
+                flex-wrap: wrap;
+            }
+            
+            .hospital-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #2b5876;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(90deg, #2b5876 0%, #4e4376 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        .toast-message {
+            font-weight: 500;
+        }
+        /* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 1rem 5%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #2c7a51;
+}
+
+.logo i {
+    font-size: 1.8rem;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: transparent;
+    color: #333;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.dropbtn i {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover .dropbtn i {
+    transform: rotate(180deg);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    display: block;
+    transition: all 0.2s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: #2c7a51;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 3rem 5% 1rem;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 50px;
+    height: 2px;
+    background-color: #2c7a51;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a:hover {
+    color: #2c7a51;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 1rem;
+}
+
+.social-icons a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: #2c7a51;
+    transform: translateY(-3px);
+}
+
+.newsletter-form {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px 0 0 4px;
+}
+
+.newsletter-form button {
+    background-color: #2c7a51;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background-color: #236b44;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .nav-links {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+    
+    .dropdown {
+        width: 100%;
+    }
+    
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+        display: none;
+        opacity: 1;
+        transform: none;
+        padding-left: 1rem;
+    }
+    
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .hospital-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+    
+    .hospital-actions {
+        flex-direction: column;
+    }
+}
+.report-section{
+    height: 500px;
+}
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <i class="fas fa-hospital"></i>
+            HealthVault
+        </div>
+        <div class="navbar-links">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Blood Donation</a>
+            <a href="#">
+                <div class="dropdown">
+                    <!-- <button class="dropdown-btn">                 -->
+                        <i class="fas fa-user-circle"></i>
+                    <!-- </button> -->
+                    <div class="dropdown-content">
+                        <a href="#">logout</a>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </nav>
+
+    <!-- Dropdown Menu -->
+    <div class="dropdown-container">
+        <div class="dropdown">
+            <button class="dropdown-btn">Report Analysis <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="/templates/report.html">Analysing</a>
+                <a href="/templates/report.html">Chat with Ai</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn">Medical Stats <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="#">History</a>
+                <a href="#">Comparison</a>
+                <!-- <a href="#">Graphical</a>
+                <a href="#">All Locations</a> -->
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn">Reminders <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="#">Emergency Care</a>
+                <a href="#">Diagnostics</a>
+                <a href="#">Surgery</a>
+                <a href="#">Consultation</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn">Appointments <i class="fas fa-chevron-down"></i></button>
+            <div class="dropdown-content">
+                <a href="/templates/doctors.html">Doctor</a>
+                <a href="/templates/hospital.html">Hospitals</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Header Section -->
+    <style>
+        /* Base styles */
+        :root {
+            --primary-color: #333333;
+            --primary-hover: #555555;
+            --background-light: #f5f5f5;
+            --background-dark: #1a1a1a;
+            --text-light: #333333;
+            --text-dark: #f5f5f5;
+            --card-bg-light: #ffffff;
+            --card-bg-dark: #2a2a2a;
+            --border-light: #e0e0e0;
+            --border-dark: #444444;
+            --user-message-bg: #333333;
+            --user-message-color: #ffffff;
+            --bot-message-bg-light: #f0f0f0;
+            --bot-message-bg-dark: #3a3a3a;
+            --bot-message-color-light: #333333;
+            --bot-message-color-dark: #f5f5f5;
+            --shadow-light: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-dark: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* background: var(--background-light); */
+            color: var(--text-light);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            min-height: 100vh;
+            display: flex;
+            background: url('./backgr1.jpeg');
+            flex-direction: column;
+        }
+
+        body.dark-theme {
+            background: var(--background-dark);
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: var(--card-bg-light);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-light);
+            transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+
+        .dark-theme .navbar {
+            background: var(--card-bg-dark);
+            box-shadow: var(--shadow-dark);
+        }
+
+        .logo a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .dark-theme .logo a {
+            color: var(--text-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed) ease;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width var(--transition-speed) ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .dark-theme .nav-links a {
+            color: var(--text-dark);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .dark-theme .theme-toggle {
+            color: var(--text-dark);
+        }
+
+        .dark-theme .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Chat container styles */
+        .chat-container {
+            background: var(--card-bg-light);
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            margin: 0 auto;
+            max-width: 800px;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            flex: 1;
+        }
+
+        .dark-theme .chat-container {
+            background: var(--card-bg-dark);
+            box-shadow: var(--shadow-dark);
+        }
+
+        .chat-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            transition: border-color var(--transition-speed) ease;
+        }
+
+        .dark-theme .chat-header {
+            border-color: var(--border-dark);
+        }
+
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-left: 12px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 24px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 24px;
+            align-items: flex-start;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-color);
+            color: white;
+            font-size: 16px;
+            margin: 0 12px;
+        }
+
+        .message.user .avatar {
+            background: var(--user-message-bg);
+        }
+
+        .message.bot .avatar {
+            background: #555555;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            position: relative;
+        }
+
+        .message.user .message-bubble {
+            background: var(--user-message-bg);
+            color: var(--user-message-color);
+            border-top-right-radius: 4px;
+        }
+
+        .message.bot .message-bubble {
+            background: var(--bot-message-bg-light);
+            color: var(--bot-message-color-light);
+            border-top-left-radius: 4px;
+        }
+
+        .dark-theme .message.bot .message-bubble {
+            background: var(--bot-message-bg-dark);
+            color: var(--bot-message-color-dark);
+        }
+
+        .message-content {
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        /* Formatting styles for bot messages */
+        .message.bot .message-content strong {
+            font-weight: 600;
+        }
+
+        .message.bot .message-content em {
+            font-style: italic;
+        }
+
+        .message.bot .message-content code {
+            font-family: monospace;
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .dark-theme .message.bot .message-content code {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .message.bot .message-content del {
+            text-decoration: line-through;
+        }
+
+        .message.bot .message-content u {
+            text-decoration: underline;
+        }
+
+        .message.bot .message-content sup {
+            vertical-align: super;
+            font-size: smaller;
+        }
+
+        .message.bot .message-content sub {
+            vertical-align: sub;
+            font-size: smaller;
+        }
+
+        .message.bot .message-content mark {
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 0 2px;
+        }
+
+        .dark-theme .message.bot .message-content mark {
+            background-color: #555;
+            color: #f5f5f5;
+        }
+
+        .message-image {
+            max-width: 200px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        .timestamp {
+            font-size: 0.75rem;
+            color: #777;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .message.user .timestamp {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .dark-theme .timestamp {
+            color: #aaa;
+        }
+
+        /* Typing animation */
+        .typing {
+            display: flex;
+            align-items: center;
+            margin-left: 12px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            margin: 0 1px;
+            background-color: #555;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* Input area styles */
+        .chat-input-container {
+            display: flex;
+            gap: 12px;
+            padding: 16px 24px;
+            background: var(--card-bg-light);
+            border-top: 1px solid var(--border-light);
+            border-radius: 0 0 16px 16px;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+        }
+
+        .dark-theme .chat-input-container {
+            background: var(--card-bg-dark);
+            border-top-color: var(--border-dark);
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            outline: none;
+            transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            font-size: 14px;
+        }
+
+        .dark-theme .chat-input {
+            background: var(--card-bg-dark);
+            border-color: var(--border-dark);
+            color: var(--text-dark);
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .action-button {
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+
+        .action-button:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05);
+        }
+
+        .action-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Error message styles */
+        .error-message {
+            background: #555;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer styles */
+        .footer {
+            text-align: center;
+            padding: 16px;
+            margin-top: 24px;
+            color: #777;
+            font-size: 14px;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .dark-theme .footer {
+            color: #aaa;
+        }
+
+        /* Scrollbar styles */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+
+        .dark-theme .chat-messages::-webkit-scrollbar-thumb {
+            background: #555;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+        }
+        .report-section{
+            margin-top: 2rem;
+        }
+    </style>
+    <div class="report-section">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="avatar bot-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="chat-title">Report Analyzer</div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <div class="avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content-wrapper">
+                        <div class="message-bubble">
+                            <div class="message-content">
+                                Hello! I'm your Medical History assistant. Upload a Medical report or ask me anything about Health Related!
+                            </div>
+                        </div>
+                        <div class="timestamp">Just now</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="error-message" id="errorMessage"></div>
+            
+            <div class="chat-input-container">
+                <button class="action-button" id="uploadButton">
+                    <i class="fas fa-image"></i>
+                </button>
+                <input type="file" id="fileInput" accept="image/*" style="display: none">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Type your message...">
+                <button class="action-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <!-- <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About HealthVault</h3>
+                <p>HealthVault helps you locate the best healthcare facilities near you. Our mission is to connect patients with quality healthcare services.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Find a Hospital</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@medifind.com</p>
+                <p>Phone: +91 123 456 7890</p>
+                <p>Address: Sector 17, Chandigarh, India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MediFind. All rights reserved.</p>
+        </div>
+    </footer> -->
+
+   
+
+    <!-- Hospital Details Modal -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2 id="detailsHospitalName"></h2>
+            </div>
+            <div id="hospitalDetails"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="toast-message">Appointment request submitted successfully!</div>
+    </div>
+
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <script>
+        // Hospital data from OpenStreetMap
+       
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate loading
+            setTimeout(() => {
+                hospitalGrid.innerHTML = '';
+                renderHospitals(hospitalData);
+            }, 1000);
+
+            // Event listeners
+            closeButtons.forEach(button => {
+                button.addEventListener('click', closeModals);
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target === appointmentModal || event.target === detailsModal) {
+                    closeModals();
+                }
+            });
+
+            appointmentForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                submitAppointment();
+            });
+
+            sortLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const sortBy = this.getAttribute('data-sort');
+                    sortHospitals(sortBy);
+                });
+            });
+        });
+
+    </script> <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const icon = document.querySelector('.theme-toggle i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+            
+            // Save theme preference
+            const isDarkMode = document.body.classList.contains('dark-theme');
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        // Load saved theme preference
+        document.addEventListener('DOMContentLoaded', () => {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-theme');
+                document.querySelector('.theme-toggle i').classList.remove('fa-moon');
+                document.querySelector('.theme-toggle i').classList.add('fa-sun');
+            }
+        });
+
+        // Chat functionality
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const fileInput = document.getElementById('fileInput');
+        const errorMessage = document.getElementById('errorMessage');
+        const uploadButton = document.getElementById('uploadButton');
+        const sendButton = document.getElementById('sendButton');
+
+        let isProcessing = false;
+        let currentImageUrl = null;
+
+        // Format message text with basic formatting
+        function formatMessageText(text) {
+            // Line breaks
+            text = text.replace(/\n/g, '<br>');
+            
+            return text;
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function showTypingIndicator() {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot typing-message';
+            messageDiv.innerHTML = `
+                <div class="avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="typing">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageDiv;
+        }
+
+        function addMessage(content, isUser = false, imageUrl = null) {
+            // Remove typing indicator if it exists
+            const typingIndicator = document.querySelector('.typing-message');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+
+            // Add avatar
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar';
+            avatar.innerHTML = isUser ? 
+                '<i class="fas fa-user"></i>' : 
+                '<i class="fas fa-robot"></i>';
+            messageDiv.appendChild(avatar);
+
+            // Message content wrapper
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = 'message-content-wrapper';
+
+            // Message bubble
+            const messageBubble = document.createElement('div');
+            messageBubble.className = 'message-bubble';
+
+            // Message content
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            if (isUser) {
+                messageContent.textContent = content;
+            } else {
+                // Format bot messages with basic formatting
+                messageContent.innerHTML = formatMessageText(content);
+            }
+            
+            messageBubble.appendChild(messageContent);
+            contentWrapper.appendChild(messageBubble);
+
+            // Add image if provided
+            if (imageUrl) {
+                const image = document.createElement('img');
+                image.src = imageUrl;
+                image.className = 'message-image';
+                messageBubble.appendChild(image);
+            }
+
+            // Add timestamp
+            const timestamp = document.createElement('div');
+            timestamp.className = 'timestamp';
+            timestamp.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            contentWrapper.appendChild(timestamp);
+
+            messageDiv.appendChild(contentWrapper);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function sendMessage() {
+            if (isProcessing) return;
+
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            isProcessing = true;
+            messageInput.value = '';
+            addMessage(message, true);
+
+            const typingIndicator = showTypingIndicator();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        message: message,
+                        image_url: currentImageUrl
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    addMessage(data.response);
+                } else {
+                    showError('Failed to get response');
+                }
+            } catch (error) {
+                showError('An error occurred');
+                console.error('Error:', error);
+            } finally {
+                // Remove typing indicator if it still exists
+                const indicator = document.querySelector('.typing-message');
+                if (indicator) indicator.remove();
+                
+                isProcessing = false;
+                currentImageUrl = null; // Reset image URL after sending
+            }
+        }
+
+        uploadButton.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                showError('Please upload an image file');
+                return;
+            }
+
+            isProcessing = true;
+            addMessage('Uploading image...', true);
+            const typingIndicator = showTypingIndicator();
+
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                // Remove the "uploading" message
+                const uploadingMessage = document.querySelector('.message.user:last-child');
+                if (uploadingMessage) uploadingMessage.remove();
+
+                if (data.success) {
+                    currentImageUrl = data.url;
+                    addMessage('Here\'s my photo for fashion recommendations', true, data.url);
+                    
+                    // Automatically send a message with the image
+                    const typingIndicator = showTypingIndicator();
+                    
+                    try {
+                        const chatResponse = await fetch('/api/chat', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ 
+                                message: 'Please provide fashion recommendations based on this photo',
+                                image_url: data.url
+                            })
+                        });
+
+                        const chatData = await chatResponse.json();
+                        
+                        if (chatData.success) {
+                            addMessage(chatData.response);
+                        } else {
+                            showError('Failed to analyze image');
+                        }
+                    } catch (error) {
+                        showError('Failed to analyze image');
+                        console.error('Error:', error);
+                    }
+                } else {
+                    showError('Failed to upload image');
+                }
+            } catch (error) {
+                showError('An error occurred');
+                console.error('Error:', error);
+            } finally {
+                // Remove typing indicator if it still exists
+                const indicator = document.querySelector('.typing-message');
+                if (indicator) indicator.remove();
+                
+                isProcessing = false;
+            }
+        });
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        sendButton.addEventListener('click', sendMessage);
+    </script>
+</body>
+</html>

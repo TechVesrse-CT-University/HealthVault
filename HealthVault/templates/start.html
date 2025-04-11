@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthVault - Health Tracking System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+</head>
+<body>
+
+    <style>
+        /* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    /* background-color: rgb(96, 166, 196); */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    margin-bottom: 15px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Header Styles */
+header {
+    padding: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    margin-right: 20px;
+}
+
+nav ul li {
+    margin-left: 30px;
+}
+
+nav ul li a {
+    font-weight: 500;
+    position: relative;
+}
+
+nav ul li a:hover {
+    color: #007bff;
+}
+
+nav ul li a.active {
+    color: #007bff;
+}
+
+nav ul li a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #007bff;
+}
+
+.login-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.login-btn:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero {
+    padding: 60px 0;
+}
+
+.hero .container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-content {
+    flex: 1;
+}
+
+.hero-content h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.cta-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+.cta-btn:hover {
+    background-color: #333;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.main-image {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.5s ease;
+}
+
+.main-image:hover {
+    transform: scale(1.03);
+}
+
+/* Features Section */
+.features {
+    padding: 80px 0;
+    background-color: #f9f9f9;
+}
+
+.features h2 {
+    font-size: 32px;
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.features-container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.features-content {
+    flex: 1;
+}
+
+.feature {
+    margin-bottom: 30px;
+}
+
+.feature h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.primary-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.primary-btn:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.secondary-btn:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+.features-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.doctor-image {
+    max-width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* How to Use Section */
+.how-to-use {
+    padding: 80px 0;
+}
+
+.how-to-use h2 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.step-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+}
+
+.heart-icon {
+    color: #ff0000;
+}
+
+.report-icon {
+    color: #333;
+}
+
+.notification-icon {
+    color: #333;
+}
+
+.step h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Footer Styles */
+footer {
+    background: linear-gradient(135deg, #2c3e50, #4a69bd);
+    color: #fff;
+    padding: 60px 0 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-section h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.underline {
+    width: 50px;
+    height: 3px;
+    background-color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.footer-section p {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a:hover {
+    color: #4CAF50;
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 500px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: modalOpen 0.4s ease-out;
+}
+
+@keyframes modalOpen {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.form-footer a {
+    color: #007bff;
+    font-weight: 500;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .hero .container {
+        flex-direction: column;
+    }
+    
+    .features-container {
+        flex-direction: column;
+    }
+    
+    .steps {
+        flex-direction: column;
+    }
+    
+    .step {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+    }
+    
+    .logo {
+        margin-bottom: 15px;
+    }
+    
+    nav ul {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    nav {
+        flex-direction: column;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+    }
+    
+    .footer-section {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        margin: 10px 0;
+    }
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-out;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+.step-description {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.step:hover .step-description {
+    display: block;
+    opacity: 1;
+}
+
+
+
+    </style>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>HealthVault</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Page</a></li>
+                </ul>
+                <button class="login-btn">Log in</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Health Tracking System</h2>
+                    <p>An affordable health tracking system that lets you know your checkup date in advance, updates you about the ongoing diseases, provides you home visit facility, keeps you protected by providing guidelines.</p>
+                    <button class="cta-btn" id="getStartedBtn">GET STARTED NOW</button>
+                </div>
+                <div class="hero-image">
+                    <img src="/static/heroimage.png" class="main-image">
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Why use HealthVault?</h2>
+                <div class="features-container">
+                    <div class="features-content">
+                        <div class="feature">
+                            <h3>Easy to use</h3>
+                            <p>Get reminders of your schedule through message just by messaging</p>
+                        </div>
+                        <div class="feature">
+                            <h3>Health stats</h3>
+                            <p>Get a graphical representation of your health status</p>
+                        </div>
+                        <div class="feature">
+                            <h3>Report analysis</h3>
+                            <p>Get a clear understanding of your medical report in your own language</p>
+                        </div>
+                        <div class="buttons">
+                            <button class="primary-btn">Button</button>
+                            <button class="secondary-btn">Secondary button</button>
+                        </div>
+                    </div>
+                    <div class="features-image">
+                        <img src="/static/doctor.png" alt="Doctor with tablet" class="doctor-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-to-use">
+            <div class="container">
+                <h2>How to use?</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-icon heart-icon">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M50,88.9c-0.6,0-1.2-0.2-1.7-0.5c-1.6-1.1-39.3-26.9-39.3-49.8c0-16.4,13.3-29.7,29.7-29.7c7.5,0,14.5,2.8,19.9,7.9 c0.3,0.3,0.7,0.5,1.1,0.5s0.8-0.2,1.1-0.5c5.4-5.1,12.4-7.9,19.9-7.9c16.4,0,29.7,13.3,29.7,29.7c0,22.9-37.7,48.7-39.3,49.8 C51.2,88.7,50.6,88.9,50,88.9z" fill="#FF0000"/>
+                                <path d="M50,60 L50,40 M40,50 L60,50" stroke="white" stroke-width="3" fill="none"/>
+                            </svg>
+                        </div>
+                        <h3>Log into your health</h3>
+                        <p class="step-description">Upload your health data and medical reports</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon report-icon">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="20" y="10" width="60" height="80" rx="5" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                                <line x1="30" y1="30" x2="70" y2="30" stroke="#333" stroke-width="2"/>
+                                <line x1="30" y1="45" x2="70" y2="45" stroke="#333" stroke-width="2"/>
+                                <line x1="30" y1="60" x2="70" y2="60" stroke="#333" stroke-width="2"/>
+                                <line x1="30" y1="75" x2="50" y2="75" stroke="#333" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3>Understand your report</h3>
+                        <p class="step-description">Get complete knowledge of your medical report</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon notification-icon">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M50,90c-5.5,0-10-4.5-10-10h20C60,85.5,55.5,90,50,90z" fill="#333"/>
+                                <path d="M75,60H25c-2.8,0-5-2.2-5-5c0-2.1,1.3-3.9,3.2-4.7V35c0-14.9,12.1-27,27-27s27,12.1,27,27v15.3 c1.9,0.8,3.2,2.6,3.2,4.7C80,57.8,77.8,60,75,60z" fill="#333"/>
+                                <circle cx="75" cy="30" r="15" fill="#FF3B30"/>
+                                <text x="75" y="35" text-anchor="middle" fill="white" font-size="15" font-weight="bold">1</text>
+                            </svg>
+                        </div>
+                        <h3>Get reminders</h3>
+                        <p class="step-description">Get notification of your checkup & medicine schedule in advance</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h3>About HealthVault</h3>
+                    <div class="underline"></div>
+                    <p>HealthVault helps you locate the best healthcare facilities near you. Our mission is to connect patients with quality healthcare services.</p>
+                </div>
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <div class="underline"></div>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Find a Hospital</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section contact">
+                    <h3>Contact Us</h3>
+                    <div class="underline"></div>
+                    <p>Email: info@HealthVault.com</p>
+                    <p>Phone: +91 123 456 7890</p>
+                    <p>Address: Sector 17, Chandigarh, India</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 HealthVault. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login to HealthVault</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="phone">Phone Number (e.g., +12345678901)</label>
+                    <input type="text" id="phone" name="phone" required placeholder="+12345678901">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="cta-btn">Login</button>
+                <p class="form-footer">Don't have an account? <a href="#" id="signupLink">Sign up</a></p>
+            </form>
+            <!-- Add a div to display messages -->
+            <div id="formMessage" style="margin-top: 15px; text-align: center; color: green;"></div>
+        </div>
+    </div>
+
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Elements
+    const getStartedBtn = document.getElementById('getStartedBtn');
+    const loginBtn = document.querySelector('.login-btn');
+    const modal = document.getElementById('loginModal');
+    const closeBtn = document.querySelector('.close');
+    const loginForm = document.getElementById('loginForm');
+    const signupLink = document.getElementById('signupLink');
+    const navLinks = document.querySelectorAll('nav ul li a');
+    const features = document.querySelectorAll('.feature');
+    const steps = document.querySelectorAll('.step');
+    const heroImage = document.querySelector('.main-image');
+    
+    // Add animation classes on page load
+    setTimeout(() => {
+        document.querySelector('.hero-content').classList.add('fade-in');
+        heroImage.classList.add('fade-in');
+    }, 300);
+    
+    // Animate features on scroll
+    const animateOnScroll = () => {
+        const triggerBottom = window.innerHeight * 0.8;
+        
+        features.forEach((feature, index) => {
+            const featureTop = feature.getBoundingClientRect().top;
+            
+            if (featureTop < triggerBottom) {
+                setTimeout(() => {
+                    feature.classList.add('slide-in');
+                }, index * 200);
+            }
+        });
+        
+        steps.forEach((step, index) => {
+            const stepTop = step.getBoundingClientRect().top;
+            
+            if (stepTop < triggerBottom) {
+                setTimeout(() => {
+                    step.classList.add('slide-in');
+                }, index * 200);
+            }
+        });
+    };
+    
+    // Call once on load
+    animateOnScroll();
+    
+    // Listen for scroll
+    window.addEventListener('scroll', animateOnScroll);
+    
+    // Modal functionality
+    const openModal = () => {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    };
+    
+    const closeModal = () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+    };
+    
+    // Event listeners for modal
+    getStartedBtn.addEventListener('click', openModal);
+    loginBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // Form submission
+    loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Simple validation
+    if (email && password) {
+        // Simulate successful login
+        window.location.href = "/templates/main.html"; // 🔁 REDIRECT to /main route (main.html)
+
+        // Optionally close modal
+        closeModal();
+    } else {
+        alert('Please fill in all fields');
+    }
+});
+
+    // Toggle between login and signup (just for demo)
+    signupLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const formTitle = document.querySelector('.modal-content h2');
+        const submitBtn = document.querySelector('.modal-content .cta-btn');
+        const formFooter = document.querySelector('.form-footer');
+        
+        if (formTitle.textContent === 'Login to HealthVault') {
+            formTitle.textContent = 'Sign up for HealthVault';
+            submitBtn.textContent = 'Sign Up';
+            formFooter.innerHTML = 'Already have an account? <a href="#" id="loginLink">Login</a>';
+            
+            // Add event listener to new login link
+            document.getElementById('loginLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                formTitle.textContent = 'Login to HealthVault';
+                submitBtn.textContent = 'Login';
+                formFooter.innerHTML = 'Don\'t have an account? <a href="#" id="signupLink">Sign up</a>';
+                
+                // Re-add event listener to signup link
+                document.getElementById('signupLink').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    signupLink.click(); // Reuse the same function
+                });
+            });
+        }
+    });
+    
+    // Navigation active state
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            navLinks.forEach(l => l.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+        });
+    });
+    
+    // Button hover effects
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px)';
+            this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+            this.style.boxShadow = '';
+        });
+    });
+    
+    // Add pulse animation to CTA button
+    getStartedBtn.classList.add('pulse');
+    
+    // Tooltip functionality
+    const createTooltip = (element, message) => {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = message;
+        tooltip.style.position = 'absolute';
+        tooltip.style.backgroundColor = '#333';
+        tooltip.style.color = '#fff';
+        tooltip.style.padding = '5px 10px';
+        tooltip.style.borderRadius = '5px';
+        tooltip.style.fontSize = '14px';
+        tooltip.style.zIndex = '1000';
+        tooltip.style.opacity = '0';
+        tooltip.style.transition = 'opacity 0.3s ease';
+        
+        document.body.appendChild(tooltip);
+        
+        element.addEventListener('mouseenter', () => {
+            const rect = element.getBoundingClientRect();
+            tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+            tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + window.scrollY + 'px';
+            tooltip.style.opacity = '1';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            tooltip.style.opacity = '0';
+        });
+    };
+    
+    // Add tooltips to buttons
+    createTooltip(getStartedBtn, 'Click to create your account');
+    createTooltip(document.querySelector('.primary-btn'), 'Learn more about our services');
+    createTooltip(document.querySelector('.secondary-btn'), 'View pricing plans');
+    
+    // Add interactive elements to steps
+    steps.forEach(step => {
+        step.addEventListener('click', function() {
+            // Remove active class from all steps
+            steps.forEach(s => s.classList.remove('active-step'));
+            
+            // Add active class to clicked step
+            this.classList.add('active-step');
+            this.style.backgroundColor = '#f9f9f9';
+            this.style.transform = 'scale(1.05)';
+            
+            // Reset after a delay
+            setTimeout(() => {
+                this.style.backgroundColor = '';
+                this.style.transform = '';
+                this.classList.remove('active-step');
+            }, 1000);
+        });
+    });
+    
+    // Notification bell animation
+    const notificationIcon = document.querySelector('.notification-icon');
+    
+    if (notificationIcon) {
+        setInterval(() => {
+            notificationIcon.classList.add('shake');
+            
+            setTimeout(() => {
+                notificationIcon.classList.remove('shake');
+            }, 1000);
+        }, 5000);
+    }
+    
+    // Add shake animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0% { transform: rotate(0); }
+            10% { transform: rotate(10deg); }
+            20% { transform: rotate(-10deg); }
+            30% { transform: rotate(10deg); }
+            40% { transform: rotate(-10deg); }
+            50% { transform: rotate(0); }
+            100% { transform: rotate(0); }
+        }
+            50% { transform: rotate(0); }
+            100% { transform: rotate(0); }
+        }
+        
+        .shake {
+            animation: shake 1s ease;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Footer link hover effects
+    const footerLinks = document.querySelectorAll('.footer-section ul li a');
+    footerLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.color = '#4CAF50';
+            this.style.paddingLeft = '5px';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.color = '';
+            this.style.paddingLeft = '';
+        });
+    });
+    
+    // Scroll to top button
+    const scrollBtn = document.createElement('button');
+    scrollBtn.innerHTML = '&uarr;';
+    scrollBtn.className = 'scroll-top-btn';
+    scrollBtn.style.position = 'fixed';
+    scrollBtn.style.bottom = '20px';
+    scrollBtn.style.right = '20px';
+    scrollBtn.style.width = '50px';
+    scrollBtn.style.height = '50px';
+    scrollBtn.style.borderRadius = '50%';
+    scrollBtn.style.backgroundColor = '#007bff';
+    scrollBtn.style.color = '#fff';
+    scrollBtn.style.border = 'none';
+    scrollBtn.style.fontSize = '20px';
+    scrollBtn.style.cursor = 'pointer';
+    scrollBtn.style.display = 'none';
+    scrollBtn.style.zIndex = '99';
+    scrollBtn.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+    
+    document.body.appendChild(scrollBtn);
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollBtn.style.display = 'block';
+        } else {
+            scrollBtn.style.display = 'none';
+        }
+    });
+    
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Add dark mode toggle
+    const darkModeToggle = document.createElement('button');
+    darkModeToggle.textContent = '🌙';
+    darkModeToggle.className = 'dark-mode-toggle';
+    darkModeToggle.style.position = 'fixed';
+    darkModeToggle.style.bottom = '80px';
+    darkModeToggle.style.right = '20px';
+    darkModeToggle.style.width = '50px';
+    darkModeToggle.style.height = '50px';
+    darkModeToggle.style.borderRadius = '50%';
+    darkModeToggle.style.backgroundColor = '#333';
+    darkModeToggle.style.color = '#fff';
+    darkModeToggle.style.border = 'none';
+    darkModeToggle.style.fontSize = '20px';
+    darkModeToggle.style.cursor = 'pointer';
+    darkModeToggle.style.zIndex = '99';
+    darkModeToggle.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+    
+    document.body.appendChild(darkModeToggle);
+    
+    let darkMode = false;
+    
+    darkModeToggle.addEventListener('click', () => {
+        darkMode = !darkMode;
+        
+        if (darkMode) {
+            document.body.style.backgroundColor = '#222';
+            document.body.style.color = '#f0f0f0';
+            darkModeToggle.textContent = '☀️';
+            darkModeToggle.style.backgroundColor = '#f0f0f0';
+            darkModeToggle.style.color = '#333';
+        } else {
+            document.body.style.backgroundColor = '';
+            document.body.style.color = '';
+            darkModeToggle.textContent = '🌙';
+            darkModeToggle.style.backgroundColor = '#333';
+            darkModeToggle.style.color = '#fff';
+        }
+    });
+});
+const steps = document.querySelectorAll('.step');
+
+    steps.forEach(step => {
+        step.addEventListener('click', () => {
+            // Toggle the active class
+            step.classList.toggle('active');
+        });
+    });
+    </script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Elements
+    const getStartedBtn = document.getElementById('getStartedBtn');
+    const loginBtn = document.querySelector('.login-btn');
+    const modal = document.getElementById('loginModal');
+    const closeBtn = document.querySelector('.close');
+    const loginForm = document.getElementById('loginForm');
+    const signupLink = document.getElementById('signupLink');
+    const navLinks = document.querySelectorAll('nav ul li a');
+    const features = document.querySelectorAll('.feature');
+    const steps = document.querySelectorAll('.step');
+    const heroImage = document.querySelector('.main-image');
+    const formMessage = document.getElementById('formMessage');
+
+    // Add animation classes on page load
+    setTimeout(() => {
+        document.querySelector('.hero-content').classList.add('fade-in');
+        heroImage.classList.add('fade-in');
+    }, 300);
+
+    // Animate features on scroll
+    const animateOnScroll = () => {
+        const triggerBottom = window.innerHeight * 0.8;
+        
+        features.forEach((feature, index) => {
+            const featureTop = feature.getBoundingClientRect().top;
+            if (featureTop < triggerBottom) {
+                setTimeout(() => {
+                    feature.classList.add('slide-in');
+                }, index * 200);
+            }
+        });
+        
+        steps.forEach((step, index) => {
+            const stepTop = step.getBoundingClientRect().top;
+            if (stepTop < triggerBottom) {
+                setTimeout(() => {
+                    step.classList.add('slide-in');
+                }, index * 200);
+            }
+        });
+    };
+
+    animateOnScroll();
+    window.addEventListener('scroll', animateOnScroll);
+
+    // Modal functionality
+    const openModal = () => {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        formMessage.textContent = ''; // Clear message when closing
+    };
+
+    getStartedBtn.addEventListener('click', openModal);
+    loginBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Form submission with AJAX
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+
+        // Clear previous messages
+        formMessage.textContent = '';
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ phone, password }),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Display success message
+                formMessage.style.color = 'green';
+                formMessage.textContent = result.message || 'Login successful, SMS sent!';
+
+                // Redirect to main page after a short delay to show the message
+                setTimeout(() => {
+                    window.location.href = "/main";
+                    closeModal();
+                }, 2000);
+            } else {
+                // Display error message
+                formMessage.style.color = 'red';
+                formMessage.textContent = result.error || 'Login failed. Please try again.';
+            }
+        } catch (error) {
+            formMessage.style.color = 'red';
+            formMessage.textContent = 'An error occurred. Please try again later.';
+            console.error('Login error:', error);
+        }
+    });
+
+    // Signup link toggle (unchanged)
+    signupLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const formTitle = document.querySelector('.modal-content h2');
+        const submitBtn = document.querySelector('.modal-content .cta-btn');
+        const formFooter = document.querySelector('.form-footer');
+        
+        if (formTitle.textContent === 'Login to HealthVault') {
+            formTitle.textContent = 'Sign up for HealthVault';
+            submitBtn.textContent = 'Sign Up';
+            formFooter.innerHTML = 'Already have an account? <a href="#" id="loginLink">Login</a>';
+            
+            document.getElementById('loginLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                formTitle.textContent = 'Login to HealthVault';
+                submitBtn.textContent = 'Login';
+                formFooter.innerHTML = 'Don\'t have an account? <a href="#" id="signupLink">Sign up</a>';
+                
+                document.getElementById('signupLink').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    signupLink.click();
+                });
+            });
+        }
+    });
+
+    // Navigation active state
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            navLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Button hover effects
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px)';
+            this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+            this.style.boxShadow = '';
+        });
+    });
+
+    // Add pulse animation to CTA button
+    getStartedBtn.classList.add('pulse');
+
+    // Tooltip functionality
+    const createTooltip = (element, message) => {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = message;
+        tooltip.style.position = 'absolute';
+        tooltip.style.backgroundColor = '#333';
+        tooltip.style.color = '#fff';
+        tooltip.style.padding = '5px 10px';
+        tooltip.style.borderRadius = '5px';
+        tooltip.style.fontSize = '14px';
+        tooltip.style.zIndex = '1000';
+        tooltip.style.opacity = '0';
+        tooltip.style.transition = 'opacity 0.3s ease';
+        
+        document.body.appendChild(tooltip);
+        
+        element.addEventListener('mouseenter', () => {
+            const rect = element.getBoundingClientRect();
+            tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+            tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + window.scrollY + 'px';
+            tooltip.style.opacity = '1';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            tooltip.style.opacity = '0';
+        });
+    };
+
+    createTooltip(getStartedBtn, 'Click to create your account');
+    createTooltip(document.querySelector('.primary-btn'), 'Learn more about our services');
+    createTooltip(document.querySelector('.secondary-btn'), 'View pricing plans');
+
+    // Steps interactivity
+    steps.forEach(step => {
+        step.addEventListener('click', function() {
+            steps.forEach(s => s.classList.remove('active-step'));
+            this.classList.add('active-step');
+            this.style.backgroundColor = '#f9f9f9';
+            this.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                this.style.backgroundColor = '';
+                this.style.transform = '';
+                this.classList.remove('active-step');
+            }, 1000);
+        });
+    });
+
+    // Notification bell animation
+    const notificationIcon = document.querySelector('.notification-icon');
+    if (notificationIcon) {
+        setInterval(() => {
+            notificationIcon.classList.add('shake');
+            setTimeout(() => {
+                notificationIcon.classList.remove('shake');
+            }, 1000);
+        }, 5000);
+    }
+
+    // Shake animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0% { transform: rotate(0); }
+            10% { transform: rotate(10deg); }
+            20% { transform: rotate(-10deg); }
+            30% { transform: rotate(10deg); }
+            40% { transform: rotate(-10deg); }
+            50% { transform: rotate(0); }
+            100% { transform: rotate(0); }
+        }
+        .shake {
+            animation: shake 1s ease;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Footer link hover effects
+    const footerLinks = document.querySelectorAll('.footer-section ul li a');
+    footerLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.color = '#4CAF50';
+            this.style.paddingLeft = '5px';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.color = '';
+            this.style.paddingLeft = '';
+        });
+    });
+
+    // Scroll to top button
+    const scrollBtn = document.createElement('button');
+    scrollBtn.innerHTML = '&uarr;';
+    scrollBtn.className = 'scroll-top-btn';
+    scrollBtn.style.position = 'fixed';
+    scrollBtn.style.bottom = '20px';
+    scrollBtn.style.right = '20px';
+    scrollBtn.style.width = '50px';
+    scrollBtn.style.height = '50px';
+    scrollBtn.style.borderRadius = '50%';
+    scrollBtn.style.backgroundColor = '#007bff';
+    scrollBtn.style.color = '#fff';
+    scrollBtn.style.border = 'none';
+    scrollBtn.style.fontSize = '20px';
+    scrollBtn.style.cursor = 'pointer';
+    scrollBtn.style.display = 'none';
+    scrollBtn.style.zIndex = '99';
+    scrollBtn.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+    
+    document.body.appendChild(scrollBtn);
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollBtn.style.display = 'block';
+        } else {
+            scrollBtn.style.display = 'none';
+        }
+    });
+    
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Dark mode toggle
+    const darkModeToggle = document.createElement('button');
+    darkModeToggle.textContent = '🌙';
+    darkModeToggle.className = 'dark-mode-toggle';
+    darkModeToggle.style.position = 'fixed';
+    darkModeToggle.style.bottom = '80px';
+    darkModeToggle.style.right = '20px';
+    darkModeToggle.style.width = '50px';
+    darkModeToggle.style.height = '50px';
+    darkModeToggle.style.borderRadius = '50%';
+    darkModeToggle.style.backgroundColor = '#333';
+    darkModeToggle.style.color = '#fff';
+    darkModeToggle.style.border = 'none';
+    darkModeToggle.style.fontSize = '20px';
+    darkModeToggle.style.cursor = 'pointer';
+    darkModeToggle.style.zIndex = '99';
+    darkModeToggle.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+    
+    document.body.appendChild(darkModeToggle);
+    
+    let darkMode = false;
+    
+    darkModeToggle.addEventListener('click', () => {
+        darkMode = !darkMode;
+        if (darkMode) {
+            document.body.style.backgroundColor = '#222';
+            document.body.style.color = '#f0f0f0';
+            darkModeToggle.textContent = '☀️';
+            darkModeToggle.style.backgroundColor = '#f0f0f0';
+            darkModeToggle.style.color = '#333';
+        } else {
+            document.body.style.backgroundColor = '';
+            document.body.style.color = '';
+            darkModeToggle.textContent = '🌙';
+            darkModeToggle.style.backgroundColor = '#333';
+            darkModeToggle.style.color = '#fff';
+        }
+    });
+});
+
+// Steps interactivity (outside DOMContentLoaded to avoid redefinition)
+const steps = document.querySelectorAll('.step');
+steps.forEach(step => {
+    step.addEventListener('click', () => {
+        step.classList.toggle('active');
+    });
+});
+</script>
+</body>
+</html>
