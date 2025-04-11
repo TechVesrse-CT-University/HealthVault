@@ -1,9 +1,8 @@
 # HealthVault - Healthcare Platform
 
 ## Your Information
-- **GitHub ID**: [Your-GitHub-ID] (e.g., johnDoe123)
-- **Gmail ID**: [Your-Gmail-ID] (e.g., johndoe@gmail.com) (used for GitHub Classroom invitation)
-
+- **GitHub ID**: [www.github.com/Strbeni2]
+- **Gmail ID**: [amityadv7477@gmail.com]
 ## 1.Idea
 HealthVault is a web platform to assist rural users with healthcare needs. It features a login page for secure access, nearby hospital and doctors location services, current spreading disease data, health guidelines, and a reminder system for checkups, all designed to improve health awareness and access.
 
