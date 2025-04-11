@@ -20,6 +20,5 @@ HealthVault is a web platform to assist rural users with healthcare needs. It fe
   - **Disease Data**: Shows current spreading diseases (static for demo).
   - **Guidelines**: Provides health tips.
   - **Reminder System**: Alerts for checkups (simulated).
-- **Limitations**: Static data, no real-time updates, basic UI.
 - **Setup**: Install with `pip install flask`, run `python app.py`, visit `http://127.0.0.1:5000`.
 
